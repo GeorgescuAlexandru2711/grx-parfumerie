@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block title %}Sign In · GrX Parfums{% endblock %}
+
+{% block content %}
+<div class="max-w-md mx-auto px-4 py-16">
+    <div class="bg-[#16161E] border border-[#242432] rounded-3xl p-8 shadow-2xl space-y-6">
+        
+        <div class="text-center space-y-2">
+            <span class="text-xs text-[#C5A880] tracking-widest uppercase font-semibold">Welcome Back</span>
+            <h1 class="text-2xl font-serif font-bold text-white">Sign In To Your Account (A4)</h1>
+            <p class="text-xs text-gray-400">Access your saved delivery addresses and order history.</p>
+        </div>
+
+        <form method="POST" class="space-y-4">
+            {% csrf_token %}
+            <input type="hidden" name="next" value="{{ next }}">
+
+            {% if form.non_field_errors %}
+                <div class="p-3 bg-red-950/80 border border-red-800 text-red-200 text-xs rounded-lg">
+                    {{ form.non_field_errors.0 }}
+                </div>
+            {% endif %}
+
+            <div>
+                <label class="block text-xs uppercase tracking-wider text-gray-400 font-medium mb-1.5">Email Address</label>
+                {{ form.email }}
+            </div>
+
+            <div>
+                <label class="block text-xs uppercase tracking-wider text-gray-400 font-medium mb-1.5">Password</label>
+                {{ form.password }}
+            </div>
+
+            <button type="submit" class="w-full py-3.5 bg-[#C5A880] hover:bg-[#E6D3B3] text-[#0D0D11] text-xs font-bold uppercase tracking-widest rounded-xl transition shadow-xl shadow-[#C5A880]/10">
+                Sign In
+            </button>
+        </form>
+
+        <div class="pt-4 border-t border-[#242432] text-center text-xs text-gray-400">
+            <span>Don't have an account yet?</span>
+            <a href="{% url 'accounts:register' %}" class="text-[#C5A880] font-semibold hover:underline ml-1">Create Account</a>
+        </div>
+
+        <div class="p-3 rounded-lg bg-[#121218] border border-[#242432] text-[11px] text-gray-500 text-center">
+            🔒 Secured with Argon2 Password Hashing (A10)
+        </div>
+
+    </div>
+</div>
+{% endblock %}

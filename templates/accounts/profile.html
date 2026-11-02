@@ -1,0 +1,106 @@
+{% extends "base.html" %}
+
+{% block title %}My Profile · GrX Parfums{% endblock %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+    <div class="mb-8 border-b border-[#242432] pb-6">
+        <span class="text-xs text-[#C5A880] tracking-widest uppercase">Member Account (A4)</span>
+        <h1 class="text-3xl font-serif font-bold text-white mt-1">{{ user.full_name }}'s Profile</h1>
+        <p class="text-xs text-gray-400 mt-1">Manage delivery address and contact credentials.</p>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        
+        <!-- User Info Badge -->
+        <div class="lg:col-span-1 space-y-4">
+            <div class="bg-[#16161E] border border-[#242432] rounded-2xl p-6 text-center space-y-3">
+                <div class="w-16 h-16 rounded-full bg-[#1F1F2C] border border-[#C5A880] flex items-center justify-center mx-auto text-2xl font-serif font-bold text-[#C5A880]">
+                    {{ user.first_name|default:user.email|first|upper }}
+                </div>
+                <div>
+                    <h3 class="font-serif text-lg font-bold text-white">{{ user.full_name }}</h3>
+                    <span class="text-xs text-gray-400">{{ user.email }}</span>
+                </div>
+                <div class="pt-3 border-t border-[#242432]">
+                    <span class="text-[10px] uppercase font-semibold px-2.5 py-1 rounded-full border {% if user.is_store_admin %}bg-purple-950 text-purple-300 border-purple-800{% else %}bg-emerald-950 text-emerald-400 border-emerald-800{% endif %}">
+                        {{ user.get_role_display }}
+                    </span>
+                </div>
+            </div>
+
+            <div class="bg-[#16161E] border border-[#242432] rounded-2xl p-4 space-y-2 text-xs">
+                <a href="{% url 'orders:history' %}" class="block p-2.5 rounded-lg bg-[#121218] text-white hover:text-[#C5A880] transition flex items-center justify-between">
+                    <span>📦 View Order History</span>
+                    <span>&rarr;</span>
+                </a>
+                {% if user.is_store_admin %}
+                    <a href="{% url 'dashboard:overview' %}" class="block p-2.5 rounded-lg bg-[#121218] text-[#C5A880] font-semibold hover:underline flex items-center justify-between">
+                        <span>⚙ Custom Admin Panel (A9)</span>
+                        <span>&rarr;</span>
+                    </a>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Address & Details Form -->
+        <div class="lg:col-span-2">
+            <div class="bg-[#16161E] border border-[#242432] rounded-2xl p-6 sm:p-8 space-y-6">
+                <h3 class="font-serif text-lg font-bold text-white pb-3 border-b border-[#242432]">
+                    Default Romanian Shipping Address
+                </h3>
+
+                <form method="POST" class="space-y-4">
+                    {% csrf_token %}
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs uppercase tracking-wider text-gray-400 font-medium mb-1.5">First Name</label>
+                            {{ form.first_name }}
+                        </div>
+                        <div>
+                            <label class="block text-xs uppercase tracking-wider text-gray-400 font-medium mb-1.5">Last Name</label>
+                            {{ form.last_name }}
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs uppercase tracking-wider text-gray-400 font-medium mb-1.5">Contact Phone</label>
+                        {{ form.phone_number }}
+                    </div>
+
+                    <div>
+                        <label class="block text-xs uppercase tracking-wider text-gray-400 font-medium mb-1.5">Street Address</label>
+                        {{ form.address_line1 }}
+                    </div>
+
+                    <div>
+                        <label class="block text-xs uppercase tracking-wider text-gray-400 font-medium mb-1.5">Apartment / Suite</label>
+                        {{ form.address_line2 }}
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                        <div>
+                            <label class="block text-xs uppercase tracking-wider text-gray-400 font-medium mb-1.5">City</label>
+                            {{ form.city }}
+                        </div>
+                        <div>
+                            <label class="block text-xs uppercase tracking-wider text-gray-400 font-medium mb-1.5">County / Sector</label>
+                            {{ form.county }}
+                        </div>
+                        <div>
+                            <label class="block text-xs uppercase tracking-wider text-gray-400 font-medium mb-1.5">Postal Code</label>
+                            {{ form.postal_code }}
+                        </div>
+                    </div>
+
+                    <button type="submit" class="w-full py-3 bg-[#C5A880] hover:bg-[#E6D3B3] text-black font-semibold text-xs uppercase tracking-widest rounded-xl transition">
+                        Update Shipping Profile
+                    </button>
+                </form>
+            </div>
+        </div>
+
+    </div>
+</div>
+{% endblock %}

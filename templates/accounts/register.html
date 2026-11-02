@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+
+{% block title %}Create Account · GrX Parfums{% endblock %}
+
+{% block content %}
+<div class="max-w-md mx-auto px-4 py-16">
+    <div class="bg-[#16161E] border border-[#242432] rounded-3xl p-8 shadow-2xl space-y-6">
+        
+        <div class="text-center space-y-2">
+            <span class="text-xs text-[#C5A880] tracking-widest uppercase font-semibold">Join Haute Parfumerie</span>
+            <h1 class="text-2xl font-serif font-bold text-white">Create Your Account (A4)</h1>
+            <p class="text-xs text-gray-400">Save delivery addresses and receive personalized fragrance discovery.</p>
+        </div>
+
+        <form method="POST" class="space-y-4">
+            {% csrf_token %}
+
+            <div class="grid grid-cols-2 gap-3">
+                <div>
+                    <label class="block text-xs uppercase tracking-wider text-gray-400 font-medium mb-1.5">First Name</label>
+                    {{ form.first_name }}
+                    {% if form.first_name.errors %}<span class="text-xs text-red-400">{{ form.first_name.errors.0 }}</span>{% endif %}
+                </div>
+                <div>
+                    <label class="block text-xs uppercase tracking-wider text-gray-400 font-medium mb-1.5">Last Name</label>
+                    {{ form.last_name }}
+                    {% if form.last_name.errors %}<span class="text-xs text-red-400">{{ form.last_name.errors.0 }}</span>{% endif %}
+                </div>
+            </div>
+
+            <div>
+                <label class="block text-xs uppercase tracking-wider text-gray-400 font-medium mb-1.5">Email Address</label>
+                {{ form.email }}
+                {% if form.email.errors %}<span class="text-xs text-red-400">{{ form.email.errors.0 }}</span>{% endif %}
+            </div>
+
+            <div>
+                <label class="block text-xs uppercase tracking-wider text-gray-400 font-medium mb-1.5">Phone Number (Romania)</label>
+                {{ form.phone_number }}
+                {% if form.phone_number.errors %}<span class="text-xs text-red-400">{{ form.phone_number.errors.0 }}</span>{% endif %}
+            </div>
+
+            <div>
+                <label class="block text-xs uppercase tracking-wider text-gray-400 font-medium mb-1.5">Password</label>
+                {{ form.password }}
+                {% if form.password.errors %}<span class="text-xs text-red-400">{{ form.password.errors.0 }}</span>{% endif %}
+            </div>
+
+            <div>
+                <label class="block text-xs uppercase tracking-wider text-gray-400 font-medium mb-1.5">Confirm Password</label>
+                {{ form.confirm_password }}
+                {% if form.confirm_password.errors %}<span class="text-xs text-red-400">{{ form.confirm_password.errors.0 }}</span>{% endif %}
+            </div>
+
+            <button type="submit" class="w-full py-3.5 bg-[#C5A880] hover:bg-[#E6D3B3] text-[#0D0D11] text-xs font-bold uppercase tracking-widest rounded-xl transition shadow-xl shadow-[#C5A880]/10">
+                Register Account
+            </button>
+        </form>
+
+        <div class="pt-4 border-t border-[#242432] text-center text-xs text-gray-400">
+            <span>Already have an account?</span>
+            <a href="{% url 'accounts:login' %}" class="text-[#C5A880] font-semibold hover:underline ml-1">Sign In</a>
+        </div>
+
+    </div>
+</div>
+{% endblock %}
