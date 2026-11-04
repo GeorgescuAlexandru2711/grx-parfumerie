@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full bg-[#0D0D11] text-[#FAF7F2]">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    <title>{% block title %}GrX Parfums · Curated Haute Parfumerie{% endblock %}</title>
+    <!-- Tailwind CSS (Play CDN for modern styling & rapid development) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        gold: {
+                            DEFAULT: '#C5A880',
+                            light: '#E6D3B3',
+                            dark: '#9E8055',
+                            accent: '#D4AF37',
+                        },
+                        obsidian: {
+                            DEFAULT: '#0D0D11',
+                            card: '#16161E',
+                            border: '#282838',
+                            hover: '#1F1F2C',
+                        }
+                    },
+                    fontFamily: {
+                        serif: ['Playfair Display', 'Georgia', 'serif'],
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0D0D11;
+            color: #FAF7F2;
+            overflow-x: hidden;
+        }
+        h1, h2, h3, .font-serif {
+            font-family: 'Playfair Display', Georgia, serif;
+        }
+        .gold-gradient-text {
+            background: linear-gradient(135deg, #FAF7F2 0%, #E6D3B3 50%, #C5A880 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .gold-border-gradient {
+            border-image: linear-gradient(135deg, #C5A880, #282838) 1;
+        }
+    </style>
+</head>
+<body class="min-h-full flex flex-col bg-[#0D0D11] text-[#FAF7F2] antialiased">
+
+    <!-- Top Announcement Bar -->
+    <div class="bg-[#121218] border-b border-[#242432] text-xs text-center py-2 text-[#C5A880] tracking-wider uppercase px-4 flex justify-between items-center max-w-7xl mx-auto w-full">
+        <span class="hidden sm:inline">✨ 2 Complimentary Discovery Samples with Every Order</span>
+        <span class="mx-auto sm:mx-0 font-medium">Free Delivery Across Romania Over 300 RON</span>
+        <span class="hidden sm:inline">100% Authentic Niche & Designer Guarantee</span>
+    </div>
+
+    <!-- Navigation Header -->
+    <header class="sticky top-0 z-50 bg-[#0D0D11]/90 backdrop-blur-md border-b border-[#242432] transition">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+
+                <!-- Mobile Menu Button -->
+                <div class="flex items-center lg:hidden">
+                    <button id="mobile-menu-btn" type="button" class="p-2 text-gray-400 hover:text-white focus:outline-none">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                        </svg>
+                    </button>
+                </div>
+
+                <!-- Brand Logo -->
+                <div class="flex items-center">
+                    <a href="{% url 'catalog:home' %}" class="flex items-center space-x-3 group">
+                        <div class="w-10 h-10 rounded-full border border-[#C5A880] flex items-center justify-center bg-[#16161E] group-hover:border-[#FAF7F2] transition">
+                            <span class="text-[#C5A880] font-serif text-lg font-bold group-hover:text-white transition">💧</span>
+                        </div>
+                        <div class="flex flex-col">
+                            <span class="font-serif text-2xl tracking-[0.2em] font-bold text-white group-hover:text-[#C5A880] transition">GrX</span>
+                            <span class="text-[9px] tracking-[0.35em] text-[#C5A880] uppercase -mt-1 font-medium">Parfums</span>
+                        </div>
+                    </a>
+                </div>
+
+                <!-- Desktop Navigation Links -->
+                <nav class="hidden lg:flex items-center space-x-8 text-sm tracking-wide font-medium">
+                    <a href="{% url 'catalog:list' %}" class="text-gray-300 hover:text-[#C5A880] transition py-1">Catalog</a>
+                    <a href="{% url 'catalog:category_detail' category_slug='women' %}" class="text-gray-300 hover:text-[#C5A880] transition py-1">Women</a>
+                    <a href="{% url 'catalog:category_detail' category_slug='men' %}" class="text-gray-300 hover:text-[#C5A880] transition py-1">Men</a>
+                    <a href="{% url 'catalog:category_detail' category_slug='unisex' %}" class="text-gray-300 hover:text-[#C5A880] transition py-1">Unisex</a>
+                    <a href="{% url 'catalog:category_detail' category_slug='gift-sets' %}" class="text-gray-300 hover:text-[#C5A880] transition py-1">Gift Sets</a>
+                </nav>
+
+                <!-- Search & Action Icons -->
+                <div class="flex items-center space-x-4">
+                    <!-- Search Input (Desktop) -->
+                    <form action="{% url 'catalog:search' %}" method="GET" class="hidden md:flex relative items-center">
+                        <input type="text" name="q" placeholder="Search perfume, note, brand..." 
+                               value="{{ request.GET.q|default:'' }}"
+                               class="bg-[#16161E] border border-[#2D2D3D] rounded-full py-1.5 pl-4 pr-10 text-xs text-white placeholder-gray-500 focus:outline-none focus:border-[#C5A880] transition w-56 lg:w-64">
+                        <button type="submit" class="absolute right-3 text-gray-400 hover:text-[#C5A880]">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                            </svg>
+                        </button>
+                    </form>
+
+                    <!-- User Account Dropdown -->
+                    <div class="relative group">
+                        {% if user.is_authenticated %}
+                            <a href="{% url 'accounts:profile' %}" class="flex items-center space-x-2 text-gray-300 hover:text-[#C5A880] transition p-2">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                                </svg>
+                                <span class="hidden sm:inline text-xs font-medium">{{ user.first_name|default:user.email|truncatechars:12 }}</span>
+                            </a>
+                            <!-- Dropdown menu -->
+                            <div class="absolute right-0 mt-1 w-48 bg-[#16161E] border border-[#2D2D3D] rounded-lg shadow-xl py-2 hidden group-hover:block transition z-50">
+                                <a href="{% url 'accounts:profile' %}" class="block px-4 py-2 text-xs text-gray-300 hover:bg-[#20202D] hover:text-[#C5A880]">My Profile</a>
+                                <a href="{% url 'orders:history' %}" class="block px-4 py-2 text-xs text-gray-300 hover:bg-[#20202D] hover:text-[#C5A880]">Order History (A8)</a>
+                                {% if user.is_staff or user.role == 'admin' %}
+                                    <div class="border-t border-[#2D2D3D] my-1"></div>
+                                    <a href="{% url 'dashboard:overview' %}" class="block px-4 py-2 text-xs text-[#C5A880] font-semibold hover:bg-[#20202D]">⚙ Custom Admin (A9)</a>
+                                {% endif %}
+                                <div class="border-t border-[#2D2D3D] my-1"></div>
+                                <a href="{% url 'accounts:logout' %}" class="block px-4 py-2 text-xs text-red-400 hover:bg-[#20202D]">Sign Out</a>
+                            </div>
+                        {% else %}
+                            <a href="{% url 'accounts:login' %}" class="text-xs uppercase tracking-wider text-gray-300 hover:text-[#C5A880] transition p-2 font-medium">
+                                Sign In
+                            </a>
+                        {% endif %}
+                    </div>
+
+                    <!-- Shopping Bag Link (A3) -->
+                    <a href="{% url 'cart:detail' %}" class="relative p-2 text-gray-300 hover:text-[#C5A880] transition">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
+                        </svg>
+                        {% if cart_item_count > 0 %}
+                            <span class="absolute top-0 right-0 bg-[#C5A880] text-black text-[10px] font-bold rounded-full w-5 h-5 flex items-center justify-center animate-pulse">
+                                {{ cart_item_count }}
+                            </span>
+                        {% endif %}
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Drawer Menu -->
+        <div id="mobile-menu" class="hidden lg:hidden bg-[#121218] border-b border-[#242432] px-4 pt-3 pb-6 space-y-3">
+            <form action="{% url 'catalog:search' %}" method="GET" class="relative pb-2">
+                <input type="text" name="q" placeholder="Search perfumes..." class="w-full bg-[#16161E] border border-[#2D2D3D] rounded-lg py-2 pl-4 pr-10 text-xs text-white placeholder-gray-500">
+                <button type="submit" class="absolute right-3 top-2 text-gray-400">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                </button>
+            </form>
+            <div class="grid grid-cols-2 gap-2 text-sm">
+                <a href="{% url 'catalog:list' %}" class="block py-2 text-gray-300 hover:text-[#C5A880]">All Fragrances</a>
+                <a href="{% url 'catalog:category_detail' category_slug='women' %}" class="block py-2 text-gray-300 hover:text-[#C5A880]">Women</a>
+                <a href="{% url 'catalog:category_detail' category_slug='men' %}" class="block py-2 text-gray-300 hover:text-[#C5A880]">Men</a>
+                <a href="{% url 'catalog:category_detail' category_slug='unisex' %}" class="block py-2 text-gray-300 hover:text-[#C5A880]">Unisex</a>
+                <a href="{% url 'catalog:category_detail' category_slug='gift-sets' %}" class="block py-2 text-gray-300 hover:text-[#C5A880]">Gift Sets</a>
+                {% if user.is_staff or user.role == 'admin' %}
+                    <a href="{% url 'dashboard:overview' %}" class="block py-2 text-[#C5A880] font-semibold">Custom Admin (A9)</a>
+                {% endif %}
+            </div>
+        </div>
+    </header>
+
+    <!-- Flash Messages -->
+    {% if messages %}
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-4">
+            {% for message in messages %}
+                <div class="p-4 rounded-lg text-sm mb-2 flex items-center justify-between {% if message.tags == 'error' %}bg-red-950/80 border border-red-800 text-red-200{% elif message.tags == 'warning' %}bg-amber-950/80 border border-amber-800 text-amber-200{% else %}bg-[#16161E] border border-[#C5A880] text-[#FAF7F2]{% endif %}">
+                    <div class="flex items-center space-x-3">
+                        <span>
+                            {% if message.tags == 'error' %}⚠️{% elif message.tags == 'warning' %}⏳{% else %}✨{% endif %}
+                        </span>
+                        <span>{{ message }}</span>
+                    </div>
+                    <button type="button" onclick="this.parentElement.remove()" class="text-gray-400 hover:text-white">&times;</button>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <!-- Main Content Block -->
+    <main class="flex-grow">
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-[#09090D] border-t border-[#242432] mt-24 py-16 text-gray-400 text-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-4 gap-10">
+            <div>
+                <div class="flex items-center space-x-3 mb-4">
+                    <span class="text-[#C5A880] font-serif text-2xl font-bold">GrX</span>
+                    <span class="text-xs tracking-[0.25em] text-[#C5A880] uppercase">Parfums</span>
+                </div>
+                <p class="text-xs leading-relaxed text-gray-500">
+                    An online perfumery curated for discerning fragrance enthusiasts. Guided olfactory discovery, authentic niche masters, and complimentary discovery vials.
+                </p>
+                <div class="mt-4 text-xs text-[#C5A880]">
+                    Semester Project by Georgescu Alexandru & Nedelea Iannis
+                </div>
+            </div>
+
+            <div>
+                <h4 class="text-white font-medium text-xs uppercase tracking-widest mb-4">Curated Fragrances</h4>
+                <ul class="space-y-2 text-xs">
+                    <li><a href="{% url 'catalog:category_detail' category_slug='women' %}" class="hover:text-[#C5A880] transition">Women's Compositions</a></li>
+                    <li><a href="{% url 'catalog:category_detail' category_slug='men' %}" class="hover:text-[#C5A880] transition">Men's Signatures</a></li>
+                    <li><a href="{% url 'catalog:category_detail' category_slug='unisex' %}" class="hover:text-[#C5A880] transition">Unisex Masterpieces</a></li>
+                    <li><a href="{% url 'catalog:category_detail' category_slug='gift-sets' %}" class="hover:text-[#C5A880] transition">Luxury Gift Coffrets</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h4 class="text-white font-medium text-xs uppercase tracking-widest mb-4">Market Inspirations</h4>
+                <ul class="space-y-2 text-xs">
+                    <li><span class="text-gray-300">Douglas:</span> 2 Free discovery vials per bag</li>
+                    <li><span class="text-gray-300">Notino:</span> 3-tier olfactory note pyramid</li>
+                    <li><span class="text-gray-300">Sephora:</span> Verified buyer ratings (B3)</li>
+                    <li><span class="text-gray-300">GrX:</span> Guaranteed stock concurrency (A7)</li>
+                </ul>
+            </div>
+
+            <div>
+                <h4 class="text-white font-medium text-xs uppercase tracking-widest mb-4">Security & Guarantees</h4>
+                <div class="space-y-2 text-xs">
+                    <p class="text-gray-400">🔒 Argon2 Hashing & CSRF Protection (A10)</p>
+                    <p class="text-gray-400">💳 Stripe Sandbox & Webhooks (A6)</p>
+                    <p class="text-gray-400">📦 Courier shipping across Romania (FanCourier / Sameday)</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-12 pt-6 border-t border-[#1C1C26] flex flex-col sm:flex-row justify-between items-center text-xs text-gray-600">
+            <p>&copy; 2026 GrX Parfums. Academic E-Commerce Semester Project.</p>
+            <div class="flex space-x-6 mt-4 sm:mt-0">
+                <a href="{% url 'dashboard:overview' %}" class="text-[#C5A880] hover:underline">Custom Admin Panel (A9)</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Toggle mobile drawer
+        const mobileBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        if (mobileBtn && mobileMenu) {
+            mobileBtn.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+        }
+    </script>
+</body>
+</html>
