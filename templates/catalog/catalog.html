@@ -1,0 +1,158 @@
+{% extends "base.html" %}
+
+{% block title %}Curated Collection · GrX Parfums{% endblock %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+    
+    <!-- Breadcrumb & Header -->
+    <div class="mb-8 border-b border-[#242432] pb-6">
+        <div class="text-xs text-[#C5A880] tracking-widest uppercase mb-1">Haute Parfumerie</div>
+        <h1 class="text-3xl sm:text-4xl font-serif font-bold text-white">
+            {% if selected_category %}
+                {{ selected_category.name }} Fragrances
+            {% elif selected_family %}
+                {{ selected_family.name }} Family
+            {% elif selected_brand %}
+                {{ selected_brand.name }}
+            {% else %}
+                All Curated Fragrances
+            {% endif %}
+        </h1>
+        <p class="text-xs text-gray-400 mt-1">
+            Displaying {{ products.count }} curated fragrance compositions with full olfactory pyramids.
+        </p>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
+        
+        <!-- Filter Sidebar -->
+        <aside class="lg:col-span-1 space-y-6">
+            <div class="bg-[#16161E] border border-[#242432] rounded-xl p-5 space-y-6">
+                <div class="flex items-center justify-between pb-3 border-b border-[#242432]">
+                    <h3 class="font-semibold text-sm text-white uppercase tracking-wider">Filters</h3>
+                    <a href="{% url 'catalog:list' %}" class="text-[11px] text-[#C5A880] hover:underline">Reset All</a>
+                </div>
+
+                <!-- Sort Order -->
+                <div>
+                    <label class="block text-xs uppercase tracking-wider text-gray-400 font-medium mb-2">Sort By</label>
+                    <select onchange="location = this.value;" class="w-full bg-[#121218] border border-[#2D2D3D] rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-[#C5A880]">
+                        <option value="?sort=featured" {% if sort_by == 'featured' %}selected{% endif %}>Curated / Featured</option>
+                        <option value="?sort=price_asc" {% if sort_by == 'price_asc' %}selected{% endif %}>Price: Low to High</option>
+                        <option value="?sort=price_desc" {% if sort_by == 'price_desc' %}selected{% endif %}>Price: High to Low</option>
+                        <option value="?sort=newest" {% if sort_by == 'newest' %}selected{% endif %}>Newest Additions</option>
+                    </select>
+                </div>
+
+                <!-- Categories -->
+                <div>
+                    <h4 class="text-xs uppercase tracking-wider text-gray-400 font-medium mb-2.5">Category</h4>
+                    <div class="space-y-1.5 text-xs">
+                        <a href="{% url 'catalog:list' %}" class="block py-1 {% if not selected_category %}text-[#C5A880] font-semibold{% else %}text-gray-300 hover:text-white{% endif %}">
+                            All Categories
+                        </a>
+                        {% for cat in categories %}
+                            <a href="{% url 'catalog:category_detail' category_slug=cat.slug %}" class="block py-1 {% if selected_category.slug == cat.slug %}text-[#C5A880] font-semibold{% else %}text-gray-400 hover:text-white{% endif %}">
+                                {{ cat.name }}
+                            </a>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <!-- Fragrance Families -->
+                <div>
+                    <h4 class="text-xs uppercase tracking-wider text-gray-400 font-medium mb-2.5">Scent Family</h4>
+                    <div class="space-y-1.5 text-xs">
+                        {% for fam in families %}
+                            <a href="{% url 'catalog:family_detail' family_slug=fam.slug %}" class="block py-1 {% if selected_family.slug == fam.slug %}text-[#C5A880] font-semibold{% else %}text-gray-400 hover:text-white{% endif %}">
+                                {{ fam.name }}
+                            </a>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <!-- Brands -->
+                <div>
+                    <h4 class="text-xs uppercase tracking-wider text-gray-400 font-medium mb-2.5">Brand House</h4>
+                    <div class="space-y-1.5 text-xs max-h-48 overflow-y-auto pr-2">
+                        {% for b in brands %}
+                            <a href="{% url 'catalog:list' %}?brand={{ b.slug }}" class="block py-1 {% if selected_brand.slug == b.slug %}text-[#C5A880] font-semibold{% else %}text-gray-400 hover:text-white{% endif %}">
+                                {{ b.name }}
+                            </a>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Product Grid -->
+        <main class="lg:col-span-3">
+            {% if products %}
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {% for product in products %}
+                        <div class="bg-[#16161E] rounded-xl border border-[#242432] overflow-hidden hover:border-[#C5A880]/60 transition flex flex-col group">
+                            
+                            <a href="{{ product.get_absolute_url }}" class="block relative aspect-[4/5] overflow-hidden bg-[#1A1A24]">
+                                <img src="{{ product.display_image }}" alt="{{ product.title }}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                                <span class="absolute top-3 left-3 bg-[#0D0D11]/80 backdrop-blur-sm border border-[#2D2D3D] text-[10px] uppercase font-semibold text-[#C5A880] px-2 py-0.5 rounded">
+                                    {{ product.category.name }}
+                                </span>
+                                {% if product.fragrance_family %}
+                                    <span class="absolute top-3 right-3 bg-[#0D0D11]/80 backdrop-blur-sm text-[10px] text-gray-300 px-2 py-0.5 rounded">
+                                        {{ product.fragrance_family.name }}
+                                    </span>
+                                {% endif %}
+                            </a>
+
+                            <div class="p-5 flex-1 flex flex-col justify-between">
+                                <div>
+                                    <span class="text-[11px] uppercase tracking-wider text-gray-400 font-medium">{{ product.brand.name }}</span>
+                                    <h3 class="font-serif text-lg font-bold text-white mt-0.5 group-hover:text-[#C5A880] transition">
+                                        <a href="{{ product.get_absolute_url }}">{{ product.title }}</a>
+                                    </h3>
+
+                                    <!-- Notes preview -->
+                                    <div class="mt-2.5 pt-2 border-t border-[#242432] text-[11px] text-gray-400">
+                                        <span class="text-[#C5A880] font-medium">Notes:</span> {{ product.top_notes|truncatechars:45 }}
+                                    </div>
+                                    
+                                    <!-- Sizes indicator -->
+                                    <div class="mt-2 flex flex-wrap gap-1">
+                                        {% for v in product.variants.all %}
+                                            <span class="text-[9px] bg-[#121218] text-gray-400 px-1.5 py-0.5 rounded border border-[#242432]">
+                                                {{ v.size_label }}
+                                            </span>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+
+                                <div class="mt-4 pt-3 border-t border-[#242432] flex items-center justify-between">
+                                    <div>
+                                        <span class="text-[10px] text-gray-400 uppercase">From</span>
+                                        <div class="text-base font-bold text-white">{{ product.min_price }} <span class="text-xs text-[#C5A880]">RON</span></div>
+                                    </div>
+                                    <a href="{{ product.get_absolute_url }}" class="px-3.5 py-1.5 bg-[#1F1F2C] hover:bg-[#C5A880] text-gray-200 hover:text-black rounded text-xs font-semibold transition">
+                                        Details & Sizes
+                                    </a>
+                                </div>
+                            </div>
+
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="text-center py-20 bg-[#16161E] rounded-xl border border-[#242432] p-8">
+                    <div class="text-4xl mb-3">💧</div>
+                    <h3 class="text-lg font-serif font-bold text-white">No Fragrances Found</h3>
+                    <p class="text-xs text-gray-400 mt-1">Try clearing your filters to discover our full curated collection.</p>
+                    <a href="{% url 'catalog:list' %}" class="inline-block mt-4 px-6 py-2.5 bg-[#C5A880] text-black rounded text-xs font-semibold uppercase tracking-wider">
+                        Reset Filters
+                    </a>
+                </div>
+            {% endif %}
+        </main>
+
+    </div>
+</div>
+{% endblock %}
