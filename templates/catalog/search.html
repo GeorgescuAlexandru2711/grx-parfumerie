@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+
+{% block title %}Search Results for "{{ query }}" · GrX Parfums{% endblock %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+    <div class="mb-8 border-b border-[#242432] pb-6">
+        <span class="text-xs text-[#C5A880] tracking-widest uppercase">Olfactory Search (A2)</span>
+        <h1 class="text-3xl font-serif font-bold text-white mt-1">
+            Search Results for "<span class="text-[#C5A880]">{{ query }}</span>"
+        </h1>
+        <p class="text-xs text-gray-400 mt-1">Found {{ result_count }} fragrance{{ result_count|pluralize }} matching your search across titles, brands, and olfactory notes.</p>
+    </div>
+
+    <!-- Re-search bar -->
+    <div class="max-w-xl mb-10">
+        <form action="{% url 'catalog:search' %}" method="GET" class="relative flex items-center">
+            <input type="text" name="q" value="{{ query }}" placeholder="Search by perfume, brand (e.g. Creed), or scent note (e.g. Saffron)..." 
+                   class="w-full bg-[#16161E] border border-[#2D2D3D] rounded-lg py-3 pl-4 pr-12 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-[#C5A880]">
+            <button type="submit" class="absolute right-3 px-3 py-1 bg-[#C5A880] text-black rounded text-xs font-semibold">
+                Search
+            </button>
+        </form>
+    </div>
+
+    {% if products %}
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {% for product in products %}
+                <div class="bg-[#16161E] rounded-xl border border-[#242432] overflow-hidden hover:border-[#C5A880]/60 transition flex flex-col group">
+                    <a href="{{ product.get_absolute_url }}" class="block relative aspect-[4/5] overflow-hidden bg-[#1A1A24]">
+                        <img src="{{ product.display_image }}" alt="{{ product.title }}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                        <span class="absolute top-3 left-3 bg-[#0D0D11]/80 backdrop-blur-sm border border-[#2D2D3D] text-[10px] uppercase font-semibold text-[#C5A880] px-2 py-0.5 rounded">
+                            {{ product.category.name }}
+                        </span>
+                    </a>
+
+                    <div class="p-5 flex-1 flex flex-col justify-between">
+                        <div>
+                            <span class="text-[11px] uppercase tracking-wider text-gray-400 font-medium">{{ product.brand.name }}</span>
+                            <h3 class="font-serif text-lg font-bold text-white mt-0.5 group-hover:text-[#C5A880] transition">
+                                <a href="{{ product.get_absolute_url }}">{{ product.title }}</a>
+                            </h3>
+                            <div class="mt-2.5 pt-2 border-t border-[#242432] text-[11px] text-gray-400">
+                                <span class="text-[#C5A880] font-medium">Notes:</span> {{ product.top_notes|truncatechars:45 }}
+                            </div>
+                        </div>
+
+                        <div class="mt-4 pt-3 border-t border-[#242432] flex items-center justify-between">
+                            <div>
+                                <span class="text-[10px] text-gray-400 uppercase">From</span>
+                                <div class="text-base font-bold text-white">{{ product.min_price }} <span class="text-xs text-[#C5A880]">RON</span></div>
+                            </div>
+                            <a href="{{ product.get_absolute_url }}" class="px-3.5 py-1.5 bg-[#1F1F2C] hover:bg-[#C5A880] text-gray-200 hover:text-black rounded text-xs font-semibold transition">
+                                View Sizes
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="text-center py-20 bg-[#16161E] rounded-xl border border-[#242432] p-8 max-w-2xl mx-auto">
+            <div class="text-4xl mb-3">🔍</div>
+            <h3 class="text-lg font-serif font-bold text-white">No Fragrances Matched Your Query</h3>
+            <p class="text-xs text-gray-400 mt-2">Try searching for popular notes such as "Saffron", "Vanilla", "Bergamot", or fragrance houses like "MFK", "Tom Ford", or "Creed".</p>
+            <div class="mt-6 flex flex-wrap justify-center gap-2">
+                <a href="?q=Saffron" class="px-3 py-1 bg-[#121218] border border-[#2D2D3D] rounded-full text-xs text-[#C5A880] hover:border-[#C5A880]">Saffron</a>
+                <a href="?q=Vanilla" class="px-3 py-1 bg-[#121218] border border-[#2D2D3D] rounded-full text-xs text-[#C5A880] hover:border-[#C5A880]">Vanilla</a>
+                <a href="?q=Oud" class="px-3 py-1 bg-[#121218] border border-[#2D2D3D] rounded-full text-xs text-[#C5A880] hover:border-[#C5A880]">Oud</a>
+                <a href="?q=Creed" class="px-3 py-1 bg-[#121218] border border-[#2D2D3D] rounded-full text-xs text-[#C5A880] hover:border-[#C5A880]">Creed</a>
+                <a href="?q=Woody" class="px-3 py-1 bg-[#121218] border border-[#2D2D3D] rounded-full text-xs text-[#C5A880] hover:border-[#C5A880]">Woody</a>
+            </div>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}
