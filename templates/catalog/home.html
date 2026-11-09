@@ -52,9 +52,9 @@
             <!-- Hero Image Banner -->
             <div class="lg:col-span-5 relative">
                 <div class="relative mx-auto w-full max-w-md aspect-[4/5] rounded-2xl overflow-hidden border border-[#2D2D3D] shadow-2xl bg-[#16161E]">
-                    <img src="https://images.unsplash.com/photo-1592945403244-b3fbafd7f539?auto=format&fit=crop&w=900&q=80" 
-                         alt="Luxury Perfume" 
-                         class="w-full h-full object-cover opacity-90 transform hover:scale-105 transition duration-700">
+                    <img src="/media/products/maison-francis-kurkdjian-baccarat-rouge-540.jpg" 
+                         alt="Maison Francis Kurkdjian Baccarat Rouge 540" 
+                         class="w-full h-full object-contain p-6 transform hover:scale-105 transition duration-700 bg-gradient-to-b from-[#1A1A24] to-[#121218]">
                     <div class="absolute inset-0 bg-gradient-to-t from-[#0D0D11] via-transparent to-transparent"></div>
                     <div class="absolute bottom-6 left-6 right-6 p-4 rounded-xl bg-[#16161E]/80 backdrop-blur-md border border-[#2D2D3D]">
                         <span class="text-[10px] tracking-widest uppercase text-[#C5A880] font-semibold">Featured Fragrance</span>
@@ -111,7 +111,7 @@
             {% for product in featured_products %}
                 <div class="bg-[#16161E] rounded-xl border border-[#242432] overflow-hidden hover:border-[#C5A880]/60 transition flex flex-col group">
                     <a href="{{ product.get_absolute_url }}" class="block relative aspect-[4/5] overflow-hidden bg-[#1A1A24]">
-                        <img src="{{ product.display_image }}" alt="{{ product.title }}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                        <img src="{{ product.display_image }}" alt="{{ product.title }}" class="w-full h-full object-contain p-4 group-hover:scale-105 transition duration-500 bg-[#181824]">
                         <span class="absolute top-3 left-3 bg-[#0D0D11]/80 backdrop-blur-sm border border-[#2D2D3D] text-[10px] uppercase font-semibold text-[#C5A880] px-2 py-0.5 rounded">
                             {{ product.category.name }}
                         </span>
@@ -206,3 +206,4 @@
     </div>
 </section>
 {% endblock %}
+

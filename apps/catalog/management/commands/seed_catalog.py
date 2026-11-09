@@ -705,12 +705,49 @@ class Command(BaseCommand):
             },
         ]
 
+        # Map of authentic perfume bottle image URLs
+        IMG_URLS = {
+            'Baccarat Rouge 540': 'https://fimgs.net/mdimg/perfume/375x500.39359.jpg',
+            'Grand Soir': 'https://fimgs.net/mdimg/perfume/375x500.41054.jpg',
+            'Aventus': 'https://fimgs.net/mdimg/perfume/375x500.9828.jpg',
+            'Silver Mountain Water': 'https://fimgs.net/mdimg/perfume/375x500.470.jpg',
+            'Santal 33': 'https://fimgs.net/mdimg/perfume/375x500.12201.jpg',
+            'Thé Noir 29': 'https://fimgs.net/mdimg/perfume/375x500.31858.jpg',
+            'Angels’ Share': 'https://fimgs.net/mdimg/perfume/375x500.62615.jpg',
+            'Black Phantom "Memento Mori"': 'https://fimgs.net/mdimg/perfume/375x500.43632.jpg',
+            'Delina': 'https://fimgs.net/mdimg/perfume/375x500.43864.jpg',
+            'Herod': 'https://fimgs.net/mdimg/perfume/375x500.16939.jpg',
+            'Tobacco Vanille': 'https://fimgs.net/mdimg/perfume/375x500.1825.jpg',
+            'Oud Wood': 'https://fimgs.net/mdimg/perfume/375x500.1826.jpg',
+            'Naxos': 'https://fimgs.net/mdimg/perfume/375x500.30529.jpg',
+            'Erba Pura': 'https://fimgs.net/mdimg/perfume/375x500.55157.jpg',
+            'Gypsy Water': 'https://fimgs.net/mdimg/perfume/375x500.3575.jpg',
+            'Bal d’Afrique': 'https://fimgs.net/mdimg/perfume/375x500.6458.jpg',
+            'Portrait of a Lady': 'https://fimgs.net/mdimg/perfume/375x500.10211.jpg',
+            'Philosykos': 'https://fimgs.net/mdimg/perfume/375x500.3865.jpg',
+            'Interlude Man': 'https://fimgs.net/mdimg/perfume/375x500.15294.jpg',
+            'Reflection Man': 'https://fimgs.net/mdimg/perfume/375x500.924.jpg',
+            'Hacivat': 'https://fimgs.net/mdimg/perfume/375x500.44174.jpg',
+            'Ani': 'https://fimgs.net/mdimg/perfume/375x500.54785.jpg',
+            'Gris Charnel': 'https://fimgs.net/mdimg/perfume/375x500.57016.jpg',
+            'Rouge Smoking': 'https://fimgs.net/mdimg/perfume/375x500.51495.jpg',
+            'Jazz Club': 'https://fimgs.net/mdimg/perfume/375x500.20541.jpg',
+            'By the Fireplace': 'https://fimgs.net/mdimg/perfume/375x500.31623.jpg',
+            'Halfeti': 'https://fimgs.net/mdimg/perfume/375x500.31396.jpg',
+            'The Tragedy of Lord George': 'https://fimgs.net/mdimg/perfume/375x500.40606.jpg',
+            'Maison Francis Kurkdjian Wardrobe for Her': 'https://fimgs.net/mdimg/perfume/375x500.39359.jpg',
+            'Creed Men’s Royal Discovery Coffret': 'https://fimgs.net/mdimg/perfume/375x500.9828.jpg',
+            'Kilian Paris The Liquors Discovery Miniature Set': 'https://fimgs.net/mdimg/perfume/375x500.62615.jpg',
+            'Le Labo Classic Discovery Set': 'https://fimgs.net/mdimg/perfume/375x500.12201.jpg',
+        }
+
         # Populate products and variants
         created_count = 0
         for item in catalog:
             brand_obj = brands[item['brand']]
             cat_obj = categories[item['category']]
             fam_obj = families[item['family']]
+            image_link = IMG_URLS.get(item['title'], item['image'])
 
             prod, created = Product.objects.get_or_create(
                 title=item['title'],
@@ -724,11 +761,14 @@ class Command(BaseCommand):
                     'top_notes': item['top'],
                     'heart_notes': item['heart'],
                     'base_notes': item['base'],
-                    'image_url': item['image'],
+                    'image_url': image_link,
                     'is_featured': item['featured'],
                     'is_active': True,
                 }
             )
+            if not created:
+                prod.image_url = image_link
+                prod.save(update_fields=['image_url'])
 
             if created:
                 created_count += 1
@@ -747,3 +787,4 @@ class Command(BaseCommand):
             f"==> Database Seed Complete! {Product.objects.count()} Curated Fragrances, "
             f"{ProductVariant.objects.count()} Size Variants across 4 Categories."
         ))
+
