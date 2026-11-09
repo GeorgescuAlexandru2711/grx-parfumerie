@@ -1,0 +1,212 @@
+{% extends "base.html" %}
+
+{% block title %}Shopping Bag · GrX Parfums{% endblock %}
+
+{% block content %}
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+    <div class="mb-8 border-b border-[#242432] pb-6">
+        <span class="text-xs text-[#C5A880] tracking-widest uppercase">Your Selection</span>
+        <h1 class="text-3xl font-serif font-bold text-white mt-1">Shopping Bag (A3)</h1>
+    </div>
+
+    {% if cart %}
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-10">
+            
+            <!-- Items Table & Samples Picker -->
+            <div class="lg:col-span-8 space-y-8">
+                
+                <!-- Line items -->
+                <div class="bg-[#16161E] border border-[#242432] rounded-2xl overflow-hidden">
+                    <div class="p-6 space-y-6">
+                        {% for item in cart %}
+                            <div class="flex flex-col sm:flex-row sm:items-center justify-between pb-6 border-b border-[#242432] last:border-b-0 last:pb-0 gap-4">
+                                <div class="flex items-center space-x-4">
+                                    <div class="w-20 h-24 rounded-lg overflow-hidden bg-[#121218] flex-shrink-0 border border-[#2D2D3D]">
+                                        <img src="{{ item.variant.product.display_image }}" alt="{{ item.variant.product.title }}" class="w-full h-full object-cover">
+                                    </div>
+                                    <div>
+                                        <span class="text-[10px] uppercase tracking-wider text-gray-400">{{ item.variant.product.brand.name }}</span>
+                                        <h3 class="font-serif text-base font-bold text-white">
+                                            <a href="{{ item.variant.product.get_absolute_url }}" class="hover:text-[#C5A880] transition">{{ item.variant.product.title }}</a>
+                                        </h3>
+                                        <div class="text-xs text-[#C5A880] font-medium mt-0.5">{{ item.variant.size_label }}</div>
+                                        <div class="text-[11px] text-gray-400 mt-1">{{ item.price }} RON / unit</div>
+                                    </div>
+                                </div>
+
+                                <div class="flex items-center justify-between sm:justify-end sm:space-x-6">
+                                    <!-- Quantity form -->
+                                    <form action="{% url 'cart:update' variant_id=item.variant.id %}" method="POST" class="flex items-center space-x-2">
+                                        {% csrf_token %}
+                                        <input type="number" name="quantity" value="{{ item.quantity }}" min="1" max="{{ item.variant.stock_quantity }}"
+                                               class="w-16 bg-[#121218] border border-[#2D2D3D] rounded-lg px-2 py-1.5 text-xs text-white text-center focus:outline-none focus:border-[#C5A880]">
+                                        <button type="submit" class="text-xs text-gray-400 hover:text-white underline">Update</button>
+                                    </form>
+
+                                    <!-- Line total -->
+                                    <div class="text-right min-w-[90px]">
+                                        <span class="text-sm font-bold text-white">{{ item.total_price }} RON</span>
+                                    </div>
+
+                                    <!-- Remove button -->
+                                    <form action="{% url 'cart:remove' variant_id=item.variant.id %}" method="POST">
+                                        {% csrf_token %}
+                                        <button type="submit" class="text-gray-500 hover:text-red-400 transition p-1" title="Remove item">
+                                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <!-- Douglas Inspiration: 2 Complimentary Discovery Samples (Slide 4) -->
+                <div class="bg-[#16161E] border border-[#C5A880]/40 rounded-2xl p-6 space-y-4">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                        <div>
+                            <div class="inline-flex items-center space-x-1.5 text-xs text-[#C5A880] font-semibold uppercase tracking-wider">
+                                <span>🧪</span>
+                                <span>Complimentary Discovery Vials (Douglas.ro Feature)</span>
+                            </div>
+                            <h3 class="text-base font-serif font-bold text-white mt-1">Select 2 Free Samples For Your Bag</h3>
+                            <p class="text-xs text-gray-400">Discover new creations in the comfort of your home. 2ml glass vials with spray pump.</p>
+                        </div>
+                        <span class="text-xs bg-[#121218] border border-[#2D2D3D] text-[#C5A880] px-3 py-1.5 rounded-full font-medium">
+                            Free Gift · 0.00 RON
+                        </span>
+                    </div>
+
+                    <form action="{% url 'cart:samples' %}" method="POST" id="samples-form" class="space-y-4 pt-3 border-t border-[#242432]">
+                        {% csrf_token %}
+                        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
+                            {% for cand in sample_candidates %}
+                                <label class="flex items-center space-x-3 p-3 bg-[#121218] border border-[#2D2D3D] rounded-xl cursor-pointer hover:border-[#C5A880] transition text-xs">
+                                    <input type="checkbox" name="sample_ids" value="{{ cand.id }}" 
+                                           class="w-4 h-4 text-[#C5A880] rounded border-gray-700 bg-[#1A1A24] focus:ring-0 sample-checkbox"
+                                           {% if cand in selected_samples %}checked{% endif %}>
+                                    <div class="truncate">
+                                        <span class="text-[10px] text-gray-500 uppercase block">{{ cand.brand.name }}</span>
+                                        <span class="text-white font-medium truncate block">{{ cand.title }}</span>
+                                    </div>
+                                </label>
+                            {% endfor %}
+                        </div>
+
+                        <div class="flex items-center justify-between pt-2">
+                            <span class="text-xs text-gray-400" id="sample-count-msg">Maximum 2 free samples per bag.</span>
+                            <button type="submit" class="px-4 py-2 bg-[#1F1F2C] hover:bg-[#C5A880] text-gray-300 hover:text-black rounded-lg text-xs font-semibold transition">
+                                Confirm Sample Selection
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+
+            <!-- Bag Financial Summary & Checkout CTA -->
+            <div class="lg:col-span-4 space-y-6">
+                
+                <!-- Summary Card -->
+                <div class="bg-[#16161E] border border-[#242432] rounded-2xl p-6 space-y-5">
+                    <h3 class="text-base font-serif font-bold text-white uppercase tracking-wider pb-3 border-b border-[#242432]">
+                        Order Summary
+                    </h3>
+
+                    <div class="space-y-3 text-xs">
+                        <div class="flex justify-between text-gray-300">
+                            <span>Subtotal</span>
+                            <span class="font-semibold text-white">{{ cart.get_subtotal }} RON</span>
+                        </div>
+
+                        {% if cart.cart.coupon %}
+                            <div class="flex justify-between text-emerald-400">
+                                <span>Coupon ({{ cart.cart.coupon.code }} - {{ cart.cart.coupon.percent }}%)</span>
+                                <span>- {{ cart.get_discount_amount }} RON</span>
+                            </div>
+                        {% endif %}
+
+                        <div class="flex justify-between text-gray-300">
+                            <span>Courier Delivery</span>
+                            {% if cart.get_shipping_fee == 0 %}
+                                <span class="text-emerald-400 font-semibold uppercase">Free</span>
+                            {% else %}
+                                <span class="font-semibold text-white">{{ cart.get_shipping_fee }} RON</span>
+                            {% endif %}
+                        </div>
+
+                        {% if cart.get_shipping_fee > 0 %}
+                            <div class="p-2.5 rounded-lg bg-[#121218] border border-[#242432] text-[11px] text-gray-400">
+                                💡 Add <strong class="text-[#C5A880]">items to reach 300 RON</strong> for Free Shipping!
+                            </div>
+                        {% endif %}
+
+                        <div class="pt-3 border-t border-[#242432] flex justify-between items-baseline">
+                            <span class="text-sm font-bold text-white uppercase">Total</span>
+                            <span class="text-xl font-bold text-[#C5A880]">{{ cart.get_total }} RON</span>
+                        </div>
+                    </div>
+
+                    <!-- Checkout Button -->
+                    <a href="{% url 'orders:checkout' %}" class="block w-full py-4 bg-[#C5A880] hover:bg-[#E6D3B3] text-[#0D0D11] text-center text-xs font-bold uppercase tracking-widest rounded-xl transition shadow-xl shadow-[#C5A880]/10">
+                        Proceed To Checkout (A5)
+                    </a>
+
+                    <div class="text-[11px] text-center text-gray-500">
+                        🔒 Secure checkout · Stock reserved atomically with row-level lock (A7)
+                    </div>
+                </div>
+
+                <!-- Coupon Code Card (B5: Server-side validation) -->
+                <div class="bg-[#16161E] border border-[#242432] rounded-2xl p-6 space-y-3">
+                    <h4 class="text-xs uppercase tracking-wider text-white font-semibold">Promotional Code (B5)</h4>
+                    
+                    {% if cart.cart.coupon %}
+                        <div class="flex items-center justify-between p-3 bg-emerald-950/50 border border-emerald-800 rounded-lg text-xs text-emerald-300">
+                            <span>Coupon <strong>{{ cart.cart.coupon.code }}</strong> active</span>
+                            <form action="{% url 'cart:remove_coupon' %}" method="POST">
+                                {% csrf_token %}
+                                <button type="submit" class="text-red-400 hover:underline">Remove</button>
+                            </form>
+                        </div>
+                    {% else %}
+                        <form action="{% url 'cart:apply_coupon' %}" method="POST" class="flex space-x-2">
+                            {% csrf_token %}
+                            <input type="text" name="coupon_code" placeholder="e.g. WELCOME10" class="flex-1 bg-[#121218] border border-[#2D2D3D] rounded-lg px-3 py-2 text-xs text-white uppercase placeholder-gray-500 focus:outline-none focus:border-[#C5A880]" required>
+                            <button type="submit" class="px-4 py-2 bg-[#1F1F2C] hover:bg-[#C5A880] text-gray-200 hover:text-black rounded-lg text-xs font-semibold transition">
+                                Apply
+                            </button>
+                        </form>
+                        <span class="text-[10px] text-gray-500 block">Try demo codes: <code class="text-[#C5A880]">WELCOME10</code> (10% off) or <code class="text-[#C5A880]">LUXURY20</code> (20% off)</span>
+                    {% endif %}
+                </div>
+
+            </div>
+
+        </div>
+    {% else %}
+        <div class="text-center py-20 bg-[#16161E] rounded-2xl border border-[#242432] p-8 max-w-xl mx-auto space-y-4">
+            <div class="text-5xl">🛍️</div>
+            <h2 class="text-2xl font-serif font-bold text-white">Your Shopping Bag is Empty</h2>
+            <p class="text-xs text-gray-400">Discover our curated fragrances or try a travel discovery size with 2 complimentary samples.</p>
+            <a href="{% url 'catalog:list' %}" class="inline-block px-8 py-3.5 bg-[#C5A880] text-black font-semibold text-xs uppercase tracking-widest rounded-xl hover:bg-[#E6D3B3] transition">
+                Explore Fragrance Collection
+            </a>
+        </div>
+    {% endif %}
+</div>
+
+<script>
+// Limit checkboxes to 2
+const checkboxes = document.querySelectorAll('.sample-checkbox');
+checkboxes.forEach(cb => {
+    cb.addEventListener('change', () => {
+        const checked = document.querySelectorAll('.sample-checkbox:checked');
+        if (checked.length > 2) {
+            cb.checked = false;
+            alert('You may select a maximum of 2 complimentary discovery vials.');
+        }
+    });
+});
+</script>
+{% endblock %}
