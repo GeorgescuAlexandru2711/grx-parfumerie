@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 54" width="220" height="54" fill="none">
+  <defs>
+    <linearGradient id="headerGoldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FAF7F2" />
+      <stop offset="40%" stop-color="#E6D3B3" />
+      <stop offset="100%" stop-color="#C5A880" />
+    </linearGradient>
+  </defs>
+
+  <!-- Golden Droplet with Diamond Accent -->
+  <g transform="translate(6, 8)">
+    <path d="M16 2 C16 2 29 17 29 25 C29 32.2 23.2 38 16 38 C8.8 38 3 32.2 3 25 C3 17 16 2 16 2 Z" 
+          stroke="url(#headerGoldGrad)" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <polygon points="16,23 18.5,27 16,31 13.5,27" fill="url(#headerGoldGrad)" />
+  </g>
+
+  <!-- Brand Typography -->
+  <g transform="translate(48, 0)">
+    <text x="0" y="32" 
+          font-family="'Playfair Display', Georgia, serif" 
+          font-size="32" 
+          font-weight="700" 
+          letter-spacing="1.5" 
+          fill="url(#headerGoldGrad)">GrX</text>
+    
+    <line x1="0" y1="38" x2="140" y2="38" stroke="url(#headerGoldGrad)" stroke-width="0.75" opacity="0.7" />
+
+    <text x="70" y="49" 
+          text-anchor="middle"
+          font-family="'Inter', sans-serif" 
+          font-size="8.5" 
+          font-weight="600" 
+          letter-spacing="6" 
+          fill="url(#headerGoldGrad)">PARFUMS</text>
+  </g>
+</svg>

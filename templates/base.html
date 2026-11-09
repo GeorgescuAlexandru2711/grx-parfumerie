@@ -78,15 +78,27 @@
                     </button>
                 </div>
 
-                <!-- Brand Logo -->
+                <!-- Brand Logo (Exactly as in Presentation 1) -->
                 <div class="flex items-center">
                     <a href="{% url 'catalog:home' %}" class="flex items-center space-x-3 group">
-                        <div class="w-10 h-10 rounded-full border border-[#C5A880] flex items-center justify-center bg-[#16161E] group-hover:border-[#FAF7F2] transition">
-                            <span class="text-[#C5A880] font-serif text-lg font-bold group-hover:text-white transition">💧</span>
+                        <div class="w-10 h-10 flex items-center justify-center">
+                            <svg viewBox="0 0 32 40" class="w-8 h-9 transition transform group-hover:scale-105" fill="none">
+                                <defs>
+                                    <linearGradient id="navGold" x1="0%" y1="0%" x2="100%" y2="100%">
+                                        <stop offset="0%" stop-color="#FAF7F2" />
+                                        <stop offset="50%" stop-color="#D4AF37" />
+                                        <stop offset="100%" stop-color="#9E8055" />
+                                    </linearGradient>
+                                </defs>
+                                <path d="M16 3 C16 3 28 17 28 25 C28 32.2 22.6 37 16 37 C9.4 37 4 32.2 4 25 C4 17 16 3 16 3 Z" 
+                                      stroke="url(#navGold)" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                                <polygon points="16,23 18.5,27 16,31 13.5,27" fill="url(#navGold)" />
+                            </svg>
                         </div>
                         <div class="flex flex-col">
-                            <span class="font-serif text-2xl tracking-[0.2em] font-bold text-white group-hover:text-[#C5A880] transition">GrX</span>
-                            <span class="text-[9px] tracking-[0.35em] text-[#C5A880] uppercase -mt-1 font-medium">Parfums</span>
+                            <span class="font-serif text-2xl tracking-[0.18em] font-bold text-white group-hover:text-[#D4AF37] transition leading-none">GrX</span>
+                            <div class="h-[0.75px] w-full bg-gradient-to-r from-[#D4AF37] to-transparent my-0.5 opacity-80"></div>
+                            <span class="text-[8.5px] tracking-[0.38em] text-[#C5A880] uppercase font-semibold">Parfums</span>
                         </div>
                     </a>
                 </div>
@@ -204,8 +216,16 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-4 gap-10">
             <div>
                 <div class="flex items-center space-x-3 mb-4">
-                    <span class="text-[#C5A880] font-serif text-2xl font-bold">GrX</span>
-                    <span class="text-xs tracking-[0.25em] text-[#C5A880] uppercase">Parfums</span>
+                    <svg viewBox="0 0 32 40" class="w-7 h-8" fill="none">
+                        <path d="M16 3 C16 3 28 17 28 25 C28 32.2 22.6 37 16 37 C9.4 37 4 32.2 4 25 C4 17 16 3 16 3 Z" 
+                              stroke="#D4AF37" stroke-width="1.8" fill="none"/>
+                        <polygon points="16,23 18.5,27 16,31 13.5,27" fill="#D4AF37" />
+                    </svg>
+                    <div class="flex flex-col">
+                        <span class="font-serif text-xl tracking-[0.18em] font-bold text-white leading-none">GrX</span>
+                        <div class="h-[0.75px] w-full bg-[#D4AF37] my-0.5 opacity-60"></div>
+                        <span class="text-[8px] tracking-[0.35em] text-[#C5A880] uppercase font-semibold">Parfums</span>
+                    </div>
                 </div>
                 <p class="text-xs leading-relaxed text-gray-500">
                     An online perfumery curated for discerning fragrance enthusiasts. Guided olfactory discovery, authentic niche masters, and complimentary discovery vials.
@@ -265,3 +285,4 @@
     </script>
 </body>
 </html>
+

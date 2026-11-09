@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 120" width="240" height="120" fill="none">
+  <!-- Golden Gradient Definition -->
+  <defs>
+    <linearGradient id="grxGoldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#F4E4C1" />
+      <stop offset="50%" stop-color="#D4AF37" />
+      <stop offset="100%" stop-color="#9E8055" />
+    </linearGradient>
+    <filter id="softGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="1.5" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+
+  <!-- Elegant Perfume Droplet with Diamond Accent (as in Presentation 1) -->
+  <g transform="translate(105, 4)">
+    <!-- Fine-lined luxury fragrance drop -->
+    <path d="M15 2 C15 2 27 16 27 24 C27 30.6 21.6 36 15 36 C8.4 36 3 30.6 3 24 C3 16 15 2 15 2 Z" 
+          stroke="url(#grxGoldGrad)" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <!-- Inner diamond / sparkle accent -->
+    <polygon points="15,22 17.5,26 15,30 12.5,26" fill="url(#grxGoldGrad)" />
+  </g>
+
+  <!-- GrX Monogram in Luxury Serif -->
+  <text x="120" y="78" 
+        text-anchor="middle" 
+        font-family="'Playfair Display', Georgia, serif" 
+        font-size="44" 
+        font-weight="700" 
+        letter-spacing="2" 
+        fill="url(#grxGoldGrad)">GrX</text>
+
+  <!-- Delicate Golden Horizontal Separator Line -->
+  <line x1="50" y1="90" x2="190" y2="90" stroke="url(#grxGoldGrad)" stroke-width="0.75" opacity="0.8" />
+
+  <!-- PARFUMS in spaced small-caps -->
+  <text x="120" y="106" 
+        text-anchor="middle" 
+        font-family="'Inter', 'Montserrat', sans-serif" 
+        font-size="10.5" 
+        font-weight="600" 
+        letter-spacing="9" 
+        fill="url(#grxGoldGrad)">PARFUMS</text>
+</svg>
