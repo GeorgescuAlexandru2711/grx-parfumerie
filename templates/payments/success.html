@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+
+{% block title %}Order Confirmed · GrX Parfums{% endblock %}
+
+{% block content %}
+<div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-16 text-center">
+    <div class="bg-[#16161E] border border-[#242432] rounded-3xl p-8 sm:p-12 shadow-2xl space-y-6">
+        
+        <div class="w-20 h-20 bg-emerald-950/80 border border-emerald-500/50 rounded-full flex items-center justify-center mx-auto text-3xl animate-bounce">
+            ✨
+        </div>
+
+        <div class="space-y-2">
+            <span class="text-xs uppercase tracking-[0.25em] text-[#C5A880] font-semibold">Payment Verified & Confirmed</span>
+            <h1 class="text-3xl sm:text-4xl font-serif font-bold text-white">Thank You For Your Order</h1>
+            <p class="text-xs text-gray-400">A confirmation receipt has been sent to <span class="text-white">{{ order.email }}</span>.</p>
+        </div>
+
+        <!-- Receipt Box -->
+        <div class="bg-[#121218] border border-[#242432] rounded-2xl p-6 text-left space-y-4 text-xs">
+            <div class="flex items-center justify-between pb-3 border-b border-[#242432]">
+                <div>
+                    <span class="text-gray-400 block text-[10px] uppercase">Order Reference</span>
+                    <span class="text-base font-serif font-bold text-white">{{ order.order_number }}</span>
+                </div>
+                <div class="text-right">
+                    <span class="text-gray-400 block text-[10px] uppercase">Status</span>
+                    <span class="bg-emerald-950 text-emerald-400 border border-emerald-800 text-[10px] font-semibold px-2.5 py-0.5 rounded-full uppercase">
+                        {{ order.get_status_display }}
+                    </span>
+                </div>
+            </div>
+
+            <!-- Items -->
+            <div class="space-y-2">
+                <span class="text-[10px] uppercase tracking-wider text-gray-500 font-semibold block">Purchased Fragrances:</span>
+                {% for item in order.items.all %}
+                    <div class="flex justify-between py-1">
+                        <span class="text-gray-300">{{ item.quantity }}× {{ item.brand_name }} - {{ item.product_title }} ({{ item.size_label }})</span>
+                        <span class="font-semibold text-white">{{ item.line_total }} RON</span>
+                    </div>
+                {% endfor %}
+
+                {% if order.sample_1 or order.sample_2 %}
+                    <div class="pt-2 border-t border-[#242432] text-gray-400">
+                        <span class="text-[10px] uppercase text-[#C5A880] block mb-1">Complimentary Discovery Vials Included:</span>
+                        {% if order.sample_1 %}<div>🧪 {{ order.sample_1.brand.name }} · {{ order.sample_1.title }} (2ml)</div>{% endif %}
+                        {% if order.sample_2 %}<div>🧪 {{ order.sample_2.brand.name }} · {{ order.sample_2.title }} (2ml)</div>{% endif %}
+                    </div>
+                {% endif %}
+            </div>
+
+            <!-- Breakdown -->
+            <div class="pt-3 border-t border-[#242432] space-y-1.5">
+                <div class="flex justify-between text-gray-400">
+                    <span>Subtotal</span>
+                    <span>{{ order.subtotal }} RON</span>
+                </div>
+                {% if order.discount_amount > 0 %}
+                    <div class="flex justify-between text-emerald-400">
+                        <span>Discount ({{ order.coupon_code }})</span>
+                        <span>- {{ order.discount_amount }} RON</span>
+                    </div>
+                {% endif %}
+                <div class="flex justify-between text-gray-400">
+                    <span>Shipping</span>
+                    <span>{% if order.shipping_fee == 0 %}FREE{% else %}{{ order.shipping_fee }} RON{% endif %}</span>
+                </div>
+                <div class="flex justify-between text-white font-bold pt-2 border-t border-[#242432] text-sm">
+                    <span>Total Paid</span>
+                    <span class="text-[#C5A880]">{{ order.total_amount }} RON</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="flex flex-col sm:flex-row gap-4 justify-center pt-2">
+            <a href="{% url 'orders:detail' order_number=order.order_number %}" class="px-6 py-3 bg-[#1F1F2C] hover:bg-[#C5A880] text-gray-200 hover:text-black rounded-xl text-xs font-semibold uppercase tracking-wider transition">
+                View Full Order Receipt
+            </a>
+            <a href="{% url 'catalog:list' %}" class="px-6 py-3 bg-[#C5A880] hover:bg-[#E6D3B3] text-black rounded-xl text-xs font-semibold uppercase tracking-wider transition">
+                Continue Exploring
+            </a>
+        </div>
+
+    </div>
+</div>
+{% endblock %}
