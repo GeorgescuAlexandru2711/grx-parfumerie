@@ -131,3 +131,4 @@ This document outlines the agile backlog, sprint planning, and completed user st
 * **Story:** As a quality engineer, I want automated tests running via `pytest` to guarantee reliability across catalog, auth, cart, payments, and concurrent stock transactions.
 * **Acceptance Criteria:**
   - Pytest tests covering auth, catalog, cart, webhook, and multi-threaded concurrency locking.
+
