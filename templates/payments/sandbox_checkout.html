@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+
+{% block title %}Stripe Payment Sandbox · GrX Parfums{% endblock %}
+
+{% block content %}
+<div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div class="bg-[#16161E] border border-[#C5A880]/50 rounded-2xl p-8 shadow-2xl space-y-6">
+        
+        <div class="flex items-center justify-between pb-6 border-b border-[#242432]">
+            <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 rounded-xl bg-[#635BFF] flex items-center justify-center font-bold text-white text-lg">
+                    S
+                </div>
+                <div>
+                    <h2 class="text-xl font-serif font-bold text-white">Stripe Sandbox Payment (A6)</h2>
+                    <span class="text-xs text-gray-400">Order Ref: <code class="text-[#C5A880]">{{ order.order_number }}</code></span>
+                </div>
+            </div>
+            <span class="text-xs bg-[#1F1F2C] border border-[#C5A880] text-[#C5A880] px-3 py-1 rounded-full font-semibold">
+                Test Mode
+            </span>
+        </div>
+
+        <!-- Order Snapshot -->
+        <div class="p-4 bg-[#121218] rounded-xl border border-[#242432] space-y-3 text-xs">
+            <div class="flex justify-between">
+                <span class="text-gray-400">Customer:</span>
+                <span class="text-white font-medium">{{ order.full_name }} ({{ order.email }})</span>
+            </div>
+            <div class="flex justify-between">
+                <span class="text-gray-400">Delivery Address:</span>
+                <span class="text-white">{{ order.address_line1 }}, {{ order.city }}, {{ order.county }}</span>
+            </div>
+            <div class="flex justify-between">
+                <span class="text-gray-400">Order Items:</span>
+                <span class="text-white">{{ order.items.count }} item{{ order.items.count|pluralize }}</span>
+            </div>
+            <div class="flex justify-between pt-2 border-t border-[#242432] text-sm">
+                <span class="font-bold text-white">Amount Due:</span>
+                <span class="font-bold text-[#C5A880]">{{ order.total_amount }} RON</span>
+            </div>
+        </div>
+
+        <!-- Academic & Technical Explanation (Slide 8 Risk 1 Mitigation) -->
+        <div class="p-4 rounded-xl bg-[#1A1A26] border border-[#2D2D3D] space-y-2 text-xs text-gray-300 leading-relaxed">
+            <div class="text-[#C5A880] font-semibold uppercase tracking-wider flex items-center space-x-1.5">
+                <span>⚡</span>
+                <span>Requirement A6 & Risk 1 Mitigation Architecture</span>
+            </div>
+            <p>
+                In production, customer cards are processed securely on Stripe servers. The order remains in status <code class="text-amber-400">PENDING</code> until the official asynchronous <code class="text-white">checkout.session.completed</code> webhook signature is received and validated, preventing order tampering.
+            </p>
+            <p class="text-gray-400 text-[11px]">
+                Testing with the official Stripe CLI locally:
+                <code class="block bg-black/60 p-2 rounded text-emerald-400 font-mono mt-1">stripe listen --forward-to localhost:8000/payments/webhook/</code>
+            </p>
+        </div>
+
+        <!-- Actions -->
+        <div class="pt-4 flex flex-col sm:flex-row gap-4">
+            <a href="{% url 'payments:sandbox_confirm' order_id=order.id %}" class="flex-1 py-4 bg-[#635BFF] hover:bg-[#7A73FF] text-white text-center text-xs font-bold uppercase tracking-widest rounded-xl transition shadow-xl shadow-[#635BFF]/20 flex items-center justify-center space-x-2">
+                <span>Simulate Stripe Webhook Confirmation (Mark as PAID)</span>
+                <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+            </a>
+
+            <a href="{% url 'payments:cancel' order_id=order.id %}" class="py-4 px-6 border border-[#2D2D3D] hover:border-red-500 text-gray-400 hover:text-red-400 text-center text-xs font-semibold uppercase tracking-wider rounded-xl transition">
+                Cancel & Restore Stock (A7)
+            </a>
+        </div>
+
+    </div>
+</div>
+{% endblock %}
