@@ -1,7 +1,7 @@
 # GrX Parfums — Online Perfumery for Curated Fragrances
 
 > **E-Commerce Semester Project · Presentation 1 to Presentation 3**  
-> **Team:** Georgescu Alexandru & Nedelea Iannis  
+> **Team:** Georgescu Alexandru & Georgescu Alexandru  
 > **Institution:** University of Craiova (UCV)
 
 [![Django](https://img.shields.io/badge/Django-5.1-092E20?style=for-the-badge&logo=django&logoColor=white)](https://www.djangoproject.com/)
@@ -28,19 +28,19 @@
 
 | Requirement Code | Feature Area | Primary Contributor | Key Implementation Highlights |
 |:---|:---|:---|:---|
-| **A1** | Curated Fragrance Catalog | **Nedelea Iannis** | 30+ products across 4 categories (Women, Men, Unisex, Gift sets) with 3-tier olfactory pyramid & travel sizes. |
-| **A2** | Olfactory Search | **Nedelea Iannis** | Search across titles, brands, scent notes, and family filters. |
+| **A1** | Curated Fragrance Catalog | **Georgescu Alexandru** | 30+ products across 4 categories (Women, Men, Unisex, Gift sets) with 3-tier olfactory pyramid & travel sizes. |
+| **A2** | Olfactory Search | **Georgescu Alexandru** | Search across titles, brands, scent notes, and family filters. |
 | **A3** | Shopping Bag | **Georgescu Alexandru** | Session-based cart with 2 free discovery samples & free shipping threshold. |
-| **A4** | User Accounts | **Nedelea Iannis** | Custom user model with Argon2 password hashing and Romanian address profiles. |
+| **A4** | User Accounts | **Georgescu Alexandru** | Custom user model with Argon2 password hashing and Romanian address profiles. |
 | **A5** | Checkout Flow | **Georgescu Alexandru** | Multi-step address collection, summary validation, and atomic order creation. |
 | **A6** | Sandbox Payment & Webhooks | **Georgescu Alexandru** | Stripe Checkout Session & Webhook receiver updating orders to `PAID`. |
 | **A7** | Stock Management & Concurrency | **Georgescu Alexandru** | PostgreSQL row-level locking (`select_for_update`) to prevent double-selling the last unit. |
-| **A8** | Order History | **Nedelea Iannis** | Customer dashboard showing order status tracking and past receipts. |
-| **A9** | Custom Administration Panel | **Nedelea Iannis** | **Bespoke admin command center** (not standard Django admin) with KPIs, stock restock, and order workflows. |
+| **A8** | Order History | **Georgescu Alexandru** | Customer dashboard showing order status tracking and past receipts. |
+| **A9** | Custom Administration Panel | **Georgescu Alexandru** | **Bespoke admin command center** (not standard Django admin) with KPIs, stock restock, and order workflows. |
 | **A10** | Security Hardening | **Georgescu Alexandru** | Argon2 hashing, strict CSRF validation, XSS & Clickjacking prevention headers. |
-| **A11** | Responsive Design | **Nedelea Iannis** | Django templates + Tailwind CSS styled for mobile (360px) to desktop. |
+| **A11** | Responsive Design | **Georgescu Alexandru** | Django templates + Tailwind CSS styled for mobile (360px) to desktop. |
 | **A12** | Automated Testing Suite | **Georgescu Alexandru** | `pytest` test suite with automated concurrency simulation and webhook verification. |
-| **B3** | Verified Buyer Reviews | **Nedelea Iannis** | Review submission strictly gated to verified purchasers. |
+| **B3** | Verified Buyer Reviews | **Georgescu Alexandru** | Review submission strictly gated to verified purchasers. |
 | **B5** | Promotional Discount Codes | **Georgescu Alexandru** | Server-side percentage discounts (`WELCOME10`, `LUXURY20`). |
 
 ---

@@ -1,7 +1,7 @@
 """
 Django settings for GrX Parfums project.
 E-Commerce Semester Project
-Team: Georgescu Alexandru (Backend & Payments) & Nedelea Iannis (Frontend & Admin Panel)
+Team: Georgescu Alexandru (Backend & Payments)
 """
 
 import os

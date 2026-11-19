@@ -1,0 +1,79 @@
+Issue Type,Summary,Description,Epic Name,Epic Link,Status,Assignee
+Epic,Infrastructure & Security,Project foundation Docker setup security hardening and automated testing.,Infrastructure & Security,,Done,Georgescu Alexandru
+Epic,Catalogue & Search,Fragrance catalogue management olfactory search and product browsing.,Catalogue & Search,,Done,Georgescu Alexandru
+Epic,Shopping & Payments,Shopping bag checkout flow coupon system and Stripe payment integration.,Shopping & Payments,,Done,Georgescu Alexandru
+Epic,Customer Portal & Administration,Order history custom admin dashboard reviews and responsive UI.,Customer Portal & Administration,,Done,Georgescu Alexandru
+Story,GRX-01 · Dockerized Infrastructure & Project Foundation,"As a developer/examiner, I want to start the full application and PostgreSQL database with one command (docker compose up --build) so that evaluation is reproducible and zero-friction.
+
+Acceptance Criteria:
+- docker-compose.yml orchestrating web and postgres:16-alpine with healthcheck.
+- Multi-stage Dockerfile with Python 3.11-slim.
+- .env.example and automatic database migrations via entrypoint.sh.",,Infrastructure & Security,Done,Georgescu Alexandru
+Story,GRX-13 · Security Hardening: Argon2 CSRF & Security Headers,"As the security engineer, I want the system hardened against common web vulnerabilities.
+
+Acceptance Criteria:
+- Argon2 password hashing as primary hasher.
+- Strict CSRF protection on forms and state-changing endpoints.
+- XSS, clickjacking, and session protection headers configured.",,Infrastructure & Security,Done,Georgescu Alexandru
+Story,GRX-15 · Automated pytest Suite: Concurrency Stress & Webhook Tests,"As a quality engineer, I want automated tests running via pytest to guarantee reliability across catalog, auth, cart, payments, and concurrent stock transactions.
+
+Acceptance Criteria:
+- Pytest tests covering auth, catalog, cart, webhook, and multi-threaded concurrency locking.",,Infrastructure & Security,Done,Georgescu Alexandru
+Story,GRX-02 · User Authentication & Secure Profile (Argon2),"As an online shopper, I want to register and sign in securely with my email and password so my shipping addresses and fragrance orders are saved.
+
+Acceptance Criteria:
+- Custom User model with email login and Argon2 password hashing.
+- Profile editing for Romanian delivery addresses.",,Catalogue & Search,Done,Georgescu Alexandru
+Story,GRX-03 · Curated Fragrance Catalogue: 32 Luxury Perfumes,"As a fragrance lover, I want to browse perfumes organized by category (Women, Men, Unisex, Gift sets) and scent family, inspect the 3-tier olfactory pyramid (Top, Heart, Base notes), and pick bottle sizes.
+
+Acceptance Criteria:
+- 30+ curated luxury & niche fragrances in seed script.
+- ProductVariant model storing size in ml, price in RON, SKU, and independent inventory stock.",,Catalogue & Search,Done,Georgescu Alexandru
+Story,GRX-04 · Olfactory Search & Faceted Family Filtering,"As a shopper, I want to search fragrances by title, brand, note (e.g. Saffron, Amber, Bergamot), and filter by fragrance family so I can find scents matching my taste.
+
+Acceptance Criteria:
+- Multi-field Q search query across title, brand, description, and notes.",,Catalogue & Search,Done,Georgescu Alexandru
+Story,GRX-05 · Shopping Bag & Complimentary Discovery Samples,"As a customer, I want to add items to my cart, adjust quantities up to available stock, and pick 2 free discovery vials.
+
+Acceptance Criteria:
+- Session cart calculation with free delivery threshold (300 RON).
+- Choice of up to 2 complimentary fragrance samples.",,Shopping & Payments,Done,Georgescu Alexandru
+Story,GRX-06 · Server-Side Promotional Coupon System,"As a shopper, I want to apply discount codes (e.g., WELCOME10, LUXURY20) and have them validated strictly on the server.
+
+Acceptance Criteria:
+- Server-side percentage discounts calculated before taxes & shipping.",,Shopping & Payments,Done,Georgescu Alexandru
+Story,GRX-07 · Multi-Step Checkout Flow with Romanian Address Validation,"As a customer, I want to review my shipping details and order breakdown before being redirected to payment.
+
+Acceptance Criteria:
+- Form validation for Romanian addresses and contact details.
+- Atomic pending order creation.",,Shopping & Payments,Done,Georgescu Alexandru
+Story,GRX-08 · Concurrency-Safe Stock Management (select_for_update),"As a store owner, I want to guarantee that two simultaneous shoppers cannot buy the last unit of a fragrance at the same time.
+
+Acceptance Criteria:
+- create_order_from_cart uses select_for_update() inside transaction.atomic().
+- Automated concurrency unit test simulating parallel checkouts.",,Shopping & Payments,Done,Georgescu Alexandru
+Story,GRX-09 · Stripe Test Mode & Async Webhook Confirmation,"As a customer, I want to pay securely via Stripe, and as a store owner, orders must become PAID only when the asynchronous webhook confirms the payment.
+
+Acceptance Criteria:
+- Stripe Checkout Session creation with line items in RON.
+- Webhook endpoint handling checkout.session.completed with signature validation.
+- Interactive Sandbox testing mode with local simulator.",,Shopping & Payments,Done,Georgescu Alexandru
+Story,GRX-10 · Customer Order History & Delivery Status Tracking,"As a customer, I want an order history page to track status (Pending, Paid, Shipped, Delivered) and view past purchase receipts.
+
+Acceptance Criteria:
+- Authenticated customer portal listing past orders with item snapshots and status badges.",,Customer Portal & Administration,Done,Georgescu Alexandru
+Story,GRX-11 · Custom Administration Command Center (KPI Dashboard),"As store administrators, we want a custom-built dashboard (not default Django admin) to monitor revenue KPIs, manage perfumes and bottle sizes, restock low inventory, and update order statuses.
+
+Acceptance Criteria:
+- KPI overview: gross revenue, order volume, low-stock alerts, customer count.
+- Full CRUD for products, size variants, and prices.
+- Order status workflow management and quick inventory replenishment.",,Customer Portal & Administration,Done,Georgescu Alexandru
+Story,GRX-12 · Verified Buyer Fragrance Reviews & Star Ratings,"As a shopper, I want authentic reviews written only by customers who actually bought the fragrance.
+
+Acceptance Criteria:
+- Review submission gated to users who have a confirmed paid order for that specific product.",,Customer Portal & Administration,Done,Georgescu Alexandru
+Story,GRX-14 · Responsive Luxury UI in Tailwind CSS (Mobile to 4K),"As a mobile customer, I want the perfumery website to look elegant, luxurious, and render flawlessly on 360px mobile screens as well as 4K monitors.
+
+Acceptance Criteria:
+- Dark obsidian, warm gold, and creamy ivory palette.
+- Mobile responsive drawer, filters, and cards.",,Customer Portal & Administration,Done,Georgescu Alexandru
