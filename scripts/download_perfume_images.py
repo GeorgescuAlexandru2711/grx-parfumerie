@@ -58,3 +58,4 @@ for slug, url in PERFUME_IMAGES.items():
             print(f"  [FAIL {res.status_code}] {slug} -> {url}")
     except Exception as e:
         print(f"  [ERROR] {slug}: {e}")
+
