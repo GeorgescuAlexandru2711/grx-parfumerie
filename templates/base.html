@@ -138,10 +138,10 @@
                             <!-- Dropdown menu -->
                             <div class="absolute right-0 mt-1 w-48 bg-[#16161E] border border-[#2D2D3D] rounded-lg shadow-xl py-2 hidden group-hover:block transition z-50">
                                 <a href="{% url 'accounts:profile' %}" class="block px-4 py-2 text-xs text-gray-300 hover:bg-[#20202D] hover:text-[#C5A880]">My Profile</a>
-                                <a href="{% url 'orders:history' %}" class="block px-4 py-2 text-xs text-gray-300 hover:bg-[#20202D] hover:text-[#C5A880]">Order History (A8)</a>
+                                <a href="{% url 'orders:history' %}" class="block px-4 py-2 text-xs text-gray-300 hover:bg-[#20202D] hover:text-[#C5A880]">Order History</a>
                                 {% if user.is_staff or user.role == 'admin' %}
                                     <div class="border-t border-[#2D2D3D] my-1"></div>
-                                    <a href="{% url 'dashboard:overview' %}" class="block px-4 py-2 text-xs text-[#C5A880] font-semibold hover:bg-[#20202D]">⚙ Custom Admin (A9)</a>
+                                    <a href="{% url 'dashboard:overview' %}" class="block px-4 py-2 text-xs text-[#C5A880] font-semibold hover:bg-[#20202D]">⚙ Custom Admin</a>
                                 {% endif %}
                                 <div class="border-t border-[#2D2D3D] my-1"></div>
                                 <a href="{% url 'accounts:logout' %}" class="block px-4 py-2 text-xs text-red-400 hover:bg-[#20202D]">Sign Out</a>
@@ -153,7 +153,7 @@
                         {% endif %}
                     </div>
 
-                    <!-- Shopping Bag Link (A3) -->
+                    <!-- Shopping Bag Link -->
                     <a href="{% url 'cart:detail' %}" class="relative p-2 text-gray-300 hover:text-[#C5A880] transition">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
@@ -183,7 +183,7 @@
                 <a href="{% url 'catalog:category_detail' category_slug='unisex' %}" class="block py-2 text-gray-300 hover:text-[#C5A880]">Unisex</a>
                 <a href="{% url 'catalog:category_detail' category_slug='gift-sets' %}" class="block py-2 text-gray-300 hover:text-[#C5A880]">Gift Sets</a>
                 {% if user.is_staff or user.role == 'admin' %}
-                    <a href="{% url 'dashboard:overview' %}" class="block py-2 text-[#C5A880] font-semibold">Custom Admin (A9)</a>
+                    <a href="{% url 'dashboard:overview' %}" class="block py-2 text-[#C5A880] font-semibold">Custom Admin</a>
                 {% endif %}
             </div>
         </div>
@@ -250,16 +250,16 @@
                 <ul class="space-y-2 text-xs">
                     <li><span class="text-gray-300">Douglas:</span> 2 Free discovery vials per bag</li>
                     <li><span class="text-gray-300">Notino:</span> 3-tier olfactory note pyramid</li>
-                    <li><span class="text-gray-300">Sephora:</span> Verified buyer ratings (B3)</li>
-                    <li><span class="text-gray-300">GrX:</span> Guaranteed stock concurrency (A7)</li>
+                    <li><span class="text-gray-300">Sephora:</span> Verified buyer ratings</li>
+                    <li><span class="text-gray-300">GrX:</span> Guaranteed stock concurrency</li>
                 </ul>
             </div>
 
             <div>
                 <h4 class="text-white font-medium text-xs uppercase tracking-widest mb-4">Security & Guarantees</h4>
                 <div class="space-y-2 text-xs">
-                    <p class="text-gray-400">🔒 Argon2 Hashing & CSRF Protection (A10)</p>
-                    <p class="text-gray-400">💳 Stripe Sandbox & Webhooks (A6)</p>
+                    <p class="text-gray-400">🔒 Argon2 Hashing & CSRF Protection</p>
+                    <p class="text-gray-400">💳 Stripe Sandbox & Webhooks</p>
                     <p class="text-gray-400">📦 Courier shipping across Romania (FanCourier / Sameday)</p>
                 </div>
             </div>
@@ -268,7 +268,7 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-12 pt-6 border-t border-[#1C1C26] flex flex-col sm:flex-row justify-between items-center text-xs text-gray-600">
             <p>&copy; 2026 GrX Parfums. Academic E-Commerce Semester Project.</p>
             <div class="flex space-x-6 mt-4 sm:mt-0">
-                <a href="{% url 'dashboard:overview' %}" class="text-[#C5A880] hover:underline">Custom Admin Panel (A9)</a>
+                <a href="{% url 'dashboard:overview' %}" class="text-[#C5A880] hover:underline">Custom Admin Panel</a>
             </div>
         </div>
     </footer>

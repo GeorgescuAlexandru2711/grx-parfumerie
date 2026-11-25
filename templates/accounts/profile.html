@@ -5,7 +5,7 @@
 {% block content %}
 <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
     <div class="mb-8 border-b border-[#242432] pb-6">
-        <span class="text-xs text-[#C5A880] tracking-widest uppercase">Member Account (A4)</span>
+        <span class="text-xs text-[#C5A880] tracking-widest uppercase">Member Account</span>
         <h1 class="text-3xl font-serif font-bold text-white mt-1">{{ user.full_name }}'s Profile</h1>
         <p class="text-xs text-gray-400 mt-1">Manage delivery address and contact credentials.</p>
     </div>
@@ -36,7 +36,7 @@
                 </a>
                 {% if user.is_store_admin %}
                     <a href="{% url 'dashboard:overview' %}" class="block p-2.5 rounded-lg bg-[#121218] text-[#C5A880] font-semibold hover:underline flex items-center justify-between">
-                        <span>⚙ Custom Admin Panel (A9)</span>
+                        <span>⚙ Custom Admin Panel</span>
                         <span>&rarr;</span>
                     </a>
                 {% endif %}
