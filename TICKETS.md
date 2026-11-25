@@ -99,7 +99,7 @@ This document outlines the agile backlog, sprint planning, and completed user st
 
 ### [GRX-11] Custom-Built Administration Command Center (A9)
 * **Owner:** Georgescu Alexandru
-* **Story:** As store administrators, Alexandru and Iannis want a custom-built dashboard (not default Django admin) to monitor revenue KPIs, manage perfumes and bottle sizes, restock low inventory, and update order statuses.
+* **Story:** As store administrators, Georgescu Alexandru want a custom-built dashboard (not default Django admin) to monitor revenue KPIs, manage perfumes and bottle sizes, restock low inventory, and update order statuses.
 * **Acceptance Criteria:**
   - KPI overview: gross revenue, order volume, low-stock alerts, customer count.
   - Full CRUD for products, size variants, and prices.

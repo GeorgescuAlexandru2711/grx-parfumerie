@@ -15,7 +15,7 @@ class Command(BaseCommand):
         admin_user, created = User.objects.get_or_create(
             email='admin@grxparfums.ro',
             defaults={
-                'first_name': 'Alexandru & Iannis',
+                'first_name': 'Alexandru',
                 'last_name': 'Admin',
                 'role': User.Role.ADMIN,
                 'is_staff': True,
